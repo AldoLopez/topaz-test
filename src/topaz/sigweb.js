@@ -15,7 +15,7 @@ export function startTablet(setSigCaptured) {
     SetTabletState(1);
     let retmod = TabletModelNumber();
     SetTabletState(0);
-    if (retmod == 11 || retmod == 12 || retmod == 15) {
+    if (retmod === 11 || retmod === 12 || retmod === 15) {
       ctx = document.getElementById('cnv').getContext('2d');
       eventTmr = setInterval(SigWebEvent, 20);
       console.log(eventTmr);
@@ -84,7 +84,7 @@ function processPenUp(setSigCaptured) {
     ClearSigWindow(1);
     LcdRefresh(1, 16, 45, 50, 15);
 
-    if (scrn == 1) {
+    if (scrn === 1) {
       ClearTablet();
       LcdRefresh(0, 0, 0, 240, 64);
 
@@ -99,7 +99,7 @@ function processPenUp(setSigCaptured) {
       KeyPadAddHotSpot(1, 1, 195, 40, 20, 15); //Back
 
       scrn = 2;
-    } else if (scrn == 2) {
+    } else if (scrn === 2) {
       LcdRefresh(2, 0, 0, 240, 64);
       ClearTablet();
       KeyPadClearHotSpotList();
@@ -116,7 +116,7 @@ function processPenUp(setSigCaptured) {
     ClearSigWindow(1);
     LcdRefresh(1, 200, 45, 25, 15);
 
-    if (scrn == 2) {
+    if (scrn === 2) {
       KeyPadClearHotSpotList();
       LcdRefresh(1, 200, 45, 25, 15);
       ClearTablet();
@@ -247,7 +247,7 @@ function parse(textData) {
     }
   }
 
-  if (writeData != '') {
+  if (writeData !== '') {
     LCDWriteString(0, 2, 0, yPos, '9pt Arial', 15, writeData);
   }
 }
@@ -317,7 +317,7 @@ function GetResetSupported() {
 
 function isOlderSigWebVersionInstalled(cmprVer) {
   var sigWebVer = GetSigWebVersion();
-  if (sigWebVer != '') {
+  if (sigWebVer !== '') {
     return isOlderVersion(cmprVer, sigWebVer);
   } else {
     return false;
@@ -355,7 +355,7 @@ function IsSigWebInstalled() {
   var xhr = new XMLHttpRequest();
   try {
     xhr.onreadystatechange = function () {
-      if (xhr.readyState == 4 && xhr.status == 0) {
+      if (xhr.readyState === 4 && xhr.status === 0) {
         console.log(
           'Unknown Error Occured. SigWeb Service response not received.'
         );
@@ -372,16 +372,16 @@ function IsSigWebInstalled() {
     console.log('catch', e);
   }
 
-  return xhr.status != 404 && xhr.status != 0;
+  return xhr.status !== 404 && xhr.status !== 0;
 }
 
 function isIE() {
   return (
-    navigator.appName == 'Microsoft Internet Explorer' ||
-    (navigator.appName == 'Netscape' &&
+    navigator.appName === 'Microsoft Internet Explorer' ||
+    (navigator.appName === 'Netscape' &&
       new RegExp('Trident/.*rv:([0-9]{1,}[.0-9]{0,})').exec(
         navigator.userAgent
-      ) != null)
+      ) !== null)
   );
 }
 
@@ -400,12 +400,12 @@ function isChrome() {
 
 function makeUri() {
   var prot = window.location.protocol;
-  if (prot == 'file:') {
+  if (prot === 'file:') {
     prot = 'http:';
   }
 
   if (isIE()) {
-    if (prot == 'https:') {
+    if (prot === 'https:') {
       return prot + '//tablet.sigwebtablet.com:47290/SigWeb/';
     } else {
       return prot + '//tablet.sigwebtablet.com:47289/SigWeb/';
@@ -413,14 +413,14 @@ function makeUri() {
   }
 
   if (isChrome()) {
-    if (prot == 'https:') {
+    if (prot === 'https:') {
       return prot + '//tablet.sigwebtablet.com:47290/SigWeb/';
     } else {
       return prot + '//tablet.sigwebtablet.com:47289/SigWeb/';
     }
   } else {
     //FIREFOX
-    if (prot == 'https:') {
+    if (prot === 'https:') {
       return prot + '//tablet.sigwebtablet.com:47290/SigWeb/';
     } else {
       return prot + '//tablet.sigwebtablet.com:47289/SigWeb/';
@@ -457,7 +457,7 @@ function SigWebSetProperty(prop) {
   if (xhr) {
     xhr.open('POST', baseUri + prop, true);
     xhr.send(null);
-    if (xhr.readyState == 4 && xhr.status == 200) {
+    if (xhr.readyState === 4 && xhr.status === 200) {
       return xhr.responseText;
     }
   }
@@ -470,7 +470,7 @@ function SigWebSetPropertySync(prop) {
   if (xhr) {
     xhr.open('POST', baseUri + prop, false);
     xhr.send();
-    if (xhr.readyState == 4 && xhr.status == 200) {
+    if (xhr.readyState === 4 && xhr.status === 200) {
       return xhr.responseText;
     }
   }
@@ -484,7 +484,7 @@ function SigWebSetStreamProperty(prop, strm) {
     xhr.open('POST', baseUri + prop);
     xhr.setRequestHeader('Content-Type', 'text/plain');
     xhr.send(strm);
-    //			if (xhr.readyState == 4 && xhr.status == 200) {
+    //			if (xhr.readyState === 4 && xhr.status === 200) {
     //				return xhr.responseText;
     //			}
   }
@@ -498,7 +498,7 @@ function SigWebSyncSetStreamProperty(prop, strm) {
     xhr.open('POST', baseUri + prop, false);
     xhr.setRequestHeader('Content-Type', 'text/plain');
     xhr.send(strm);
-    if (xhr.readyState == 4 && xhr.status == 200) {
+    if (xhr.readyState === 4 && xhr.status === 200) {
       return xhr.responseText;
     }
   }
@@ -512,7 +512,7 @@ function SigWebSetImageStreamProperty(prop, strm) {
     xhr.open('POST', baseUri + prop, false);
     xhr.setRequestHeader('Content-Type', 'image/png');
     xhr.send(strm);
-    if (xhr.readyState == 4 && xhr.status == 200) {
+    if (xhr.readyState === 4 && xhr.status === 200) {
       return xhr.responseText;
     }
   }
@@ -531,7 +531,7 @@ function SigWebSetImageBlobProperty(prop, strm) {
     xhr.open('POST', baseUri + prop, false);
     xhr.setRequestHeader('Content-Type', 'blob');
     xhr.send(strm);
-    if (xhr.readyState == 4 && xhr.status == 200) {
+    if (xhr.readyState === 4 && xhr.status === 200) {
       return xhr.responseText;
     }
   }
@@ -544,7 +544,7 @@ function SigWebGetProperty(prop) {
   if (xhr) {
     xhr.open('GET', baseUri + prop + '?noCache=' + generateUUID(), false);
     xhr.send(null);
-    if (xhr.readyState == 4 && xhr.status == 200) {
+    if (xhr.readyState === 4 && xhr.status === 200) {
       return xhr.responseText;
     }
   }
@@ -563,7 +563,7 @@ var SigImageB64;
 // 	xhr2.open("GET", baseUri + "SigImage/1", false);
 // 	xhr2.responseType = "blob";
 // 	xhr2.send(null);
-// 	if (xhr2.readyState == 4 && xhr.status == 200)
+// 	if (xhr2.readyState === 4 && xhr.status === 200)
 // 		{
 // 		var cntx = cvs.getContext('2d');
 // 		var img = new Image();
@@ -637,8 +637,8 @@ function SigWebWaitForPenDown(callback) {
     xhr.open('GET', baseUri + 'WaitForPenDown' + '?noCache=' + generateUUID());
     xhr.timeout = 10000;
     xhr.onreadystatechange = function () {
-      if (xhr.readyState != 4) return;
-      if (xhr.status == 200) callback();
+      if (xhr.readyState !== 4) return;
+      if (xhr.status === 200) callback();
     };
     xhr.send(null);
   }
@@ -672,7 +672,7 @@ var NumPointsLastTime = 0;
 
 function SigWebRefresh() {
   var NumPoints = NumberOfTabletPoints();
-  if (NumPoints == NumPointsLastTime) {
+  if (NumPoints === NumPointsLastTime) {
     return;
   }
   NumPointsLastTime = NumPoints;
@@ -725,15 +725,15 @@ function SigWebEvent() {
 function generateUUID() {
   var d = new Date().getTime();
   if (
-    typeof performance !== 'undefined' &&
-    typeof performance.now === 'function'
+    typeof performance !==== 'undefined' &&
+    typeof performance.now ==== 'function'
   ) {
     d += performance.now(); //use high-precision timer if available
   }
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
     var r = (d + Math.random() * 16) % 16 | 0;
     d = Math.floor(d / 16);
-    return (c === 'x' ? r : (r & 0x3) | 0x8).toString(16);
+    return (c ==== 'x' ? r : (r & 0x3) | 0x8).toString(16);
   });
 }
 
@@ -888,7 +888,7 @@ function measureText(pText, pFontSize, pStyle) {
 
   document.body.appendChild(lDiv);
 
-  if (pStyle != null) {
+  if (pStyle !== null) {
     lDiv.style = pStyle;
   }
   lDiv.style.fontSize = '' + pFontSize + 'px';
@@ -917,7 +917,7 @@ function GetSigWebVersion() {
   if (xhr) {
     xhr.open('GET', baseUri + prop + '?noCache=' + generateUUID(), false);
     xhr.send(null);
-    if (xhr.readyState == 4 && xhr.status == 200) {
+    if (xhr.readyState === 4 && xhr.status === 200) {
       return xhr.responseText.slice(1, xhr.responseText.length - 1);
     } else {
       return '1.5'; //the currentversion of the SigWeb service is not installed
@@ -1423,7 +1423,7 @@ function GetDisplayAnnotateSize() {
 //			xhr2.open("GET", baseUri + "SigImage/1", false );
 //			xhr2.responseType = "blob"
 //			xhr2.send(null);
-//			if (xhr2.readyState == 4 && xhr.status == 200)
+//			if (xhr2.readyState === 4 && xhr.status === 200)
 //				{
 //				return window.URL.createObjectURL(xhr2.response);
 //				}
@@ -1698,7 +1698,7 @@ function LCDWriteString(dest, mode, x, y, fnt, size, str) {
   c.width = xs;
   c.height = ys;
 
-  if (xs == 0) {
+  if (xs === 0) {
     return;
   }
 
@@ -2344,8 +2344,8 @@ function SetTabletState(v, ctx, tv) {
     delay = 100;
   }
 
-  if (GetTabletState() != v) {
-    if (v == 1) {
+  if (GetTabletState() !== v) {
+    if (v === 1) {
       if (ctx) {
         var can = ctx.canvas;
         SetDisplayXSize(can.width);
@@ -2353,7 +2353,7 @@ function SetTabletState(v, ctx, tv) {
         SigWebSetDisplayTarget(ctx);
       }
       SetRealTabletState(v);
-      if (ctx && GetTabletState() != 0) {
+      if (ctx && GetTabletState() !== 0) {
         var tmr = setInterval(SigWebRefresh, delay);
       } else {
         var tmr = null;
